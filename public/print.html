@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>列印申請單</title>
+<style>
+  :root { --navy: #1D2C6F; --gold: #F4B223; --gray: #6b7280; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 18px; background: #f3f4f6; color: #111827;
+    font-family: "Microsoft JhengHei", "Noto Sans TC", sans-serif; font-size: 12.5px; }
+  .toolbar { max-width: 780px; margin: 0 auto 14px; display: flex; gap: 8px; align-items: center; }
+  .btn { border: 1px solid var(--navy); background: var(--navy); color: #fff; border-radius: 7px; padding: 7px 14px; font: inherit; cursor: pointer; }
+  .btn.sec { background: #fff; color: var(--navy); }
+  .note { font-size: 12px; color: var(--gray); }
+  .sheet { max-width: 780px; margin: 0 auto 20px; background: #fff; padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+  .head { text-align: center; border-bottom: 2px solid var(--navy); padding-bottom: 8px; margin-bottom: 4px; }
+  .company { font-size: 19px; font-weight: 700; color: var(--navy); letter-spacing: 1px; }
+  .doc-title { font-size: 16px; font-weight: 700; margin-top: 4px; letter-spacing: 3px; }
+  .gold-line { height: 3px; background: var(--gold); margin-bottom: 12px; }
+  table { width: 100%; border-collapse: collapse; }
+  .info td { border: 1px solid #d1d5db; padding: 5px 8px; font-size: 11.5px; }
+  .info .label { background: #f3f4f6; font-weight: 700; width: 15%; color: #374151; }
+  .items { margin-top: 10px; }
+  .items th { background: var(--navy); color: #fff; border: 1px solid var(--navy); padding: 5px; font-size: 11.5px; }
+  .items td { border: 1px solid #d1d5db; padding: 5px; font-size: 11.5px; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .center { text-align: center; }
+  .summary { width: 300px; margin-left: auto; margin-top: 10px; }
+  .summary td { border: 1px solid #d1d5db; padding: 4px 8px; font-size: 11.5px; text-align: right; }
+  .summary .label { background: #f9fafb; font-weight: 700; text-align: right; }
+  .summary .net td { font-size: 14px; font-weight: 700; color: #b91c1c; }
+  .memo { border: 1px dashed #9ca3af; background: #f9fafb; padding: 8px; margin-top: 12px; font-size: 11.5px; }
+  .sign { margin-top: 16px; }
+  .sign th { border: 1px solid #d1d5db; background: #f3f4f6; padding: 5px; font-size: 11.5px; }
+  .sign td { border: 1px solid #d1d5db; height: 58px; vertical-align: bottom; text-align: center; padding-bottom: 4px; font-size: 11px; color: var(--gray); }
+  .photos { margin-top: 14px; page-break-before: always; }
+  .photos h4 { color: var(--navy); border-bottom: 2px solid var(--navy); padding-bottom: 4px; font-size: 13px; }
+  .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .photo-grid figure { margin: 0; border: 1px solid #d1d5db; padding: 6px; text-align: center; }
+  .photo-grid img { max-width: 100%; max-height: 250px; object-fit: contain; }
+  .photo-grid figcaption { font-size: 10.5px; color: var(--gray); }
+  @media print {
+    body { background: #fff; padding: 0; font-size: 11.5px; }
+    .toolbar { display: none; }
+    .sheet { box-shadow: none; max-width: none; padding: 10mm; margin: 0; }
+    @page { size: A4; margin: 8mm; }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button class="btn" onclick="window.print()">🖨️ 列印 / 存成 PDF</button>
+  <button class="btn sec" onclick="window.close()">關閉</button>
+  <span class="note" id="hint"></span>
+</div>
+<div id="root" class="sheet"></div>
+<script src="js/api.js"></script>
+<script src="js/print.js"></script>
+</body>
+</html>

@@ -1,0 +1,902 @@
+{
+ "companies": [
+  {
+   "name": "太綺水電工程有限公司",
+   "tax_id": "45149105",
+   "bank": "彰化銀行 北屯分行",
+   "account": "009-40280104588300",
+   "address": "臺中市北區頂厝里崇德路一段631號4樓之3-A棟"
+  },
+  {
+   "name": "匠人本紀永續控股股份有限公司",
+   "tax_id": "96847722",
+   "bank": "",
+   "account": "",
+   "address": "臺中市北區頂厝里崇德路一段631號4樓之3-A棟"
+  },
+  {
+   "name": "橡欣立工程有限公司",
+   "tax_id": "90193416",
+   "bank": "",
+   "account": "",
+   "address": "臺中市北區頂厝里崇德路一段631號4樓之3-A棟"
+  }
+ ],
+ "vendors": [
+  {
+   "name": "伸泰國際股份有限公司",
+   "tax_id": "12738855",
+   "bank": "台銀-林口分行",
+   "account": "004-228001018189",
+   "contact_person": "楊茲甯",
+   "phone": "0972189329",
+   "address": "台中市西屯區是正北一路77號11樓-7"
+  },
+  {
+   "name": "喜利得股份有限公司",
+   "tax_id": "22348814",
+   "bank": "花旗(台灣)商業銀行-營業部",
+   "account": "021-72430031159671",
+   "contact_person": "鄧穎琳",
+   "phone": "02-66300345",
+   "address": "新北市板橋區新站路16號24樓"
+  },
+  {
+   "name": "詠錠機電有限公司",
+   "tax_id": "27625680",
+   "bank": "台中銀行-霧峰分行",
+   "account": "053-045221136932",
+   "contact_person": "洪川結",
+   "phone": "0423385038",
+   "address": "台中市烏日區烏日里麻園溪西路75巷50號"
+  },
+  {
+   "name": "新泰豐物流股份有限公司",
+   "tax_id": "28725814",
+   "bank": "玉山銀行-八德分行",
+   "account": "808-0277440015898",
+   "contact_person": "陳成泰",
+   "phone": "04-25676600",
+   "address": "臺中市大雅區橫山里永和路124之5號"
+  },
+  {
+   "name": "惠輝水電工程行",
+   "tax_id": "38833502",
+   "bank": "三信商業銀行-成功分行",
+   "account": "147-004020139131",
+   "contact_person": "林惠輝",
+   "phone": "0423958639",
+   "address": "臺中市太平區新福里新福路１０１號１樓"
+  },
+  {
+   "name": "群旺有限公司",
+   "tax_id": "45881514",
+   "bank": "聯邦銀行-文心分行",
+   "account": "803-034100029579",
+   "contact_person": "-",
+   "phone": "-",
+   "address": "-"
+  },
+  {
+   "name": "宏穎材料有限公司",
+   "tax_id": "50834111",
+   "bank": "華南銀行-大里分行",
+   "account": "008-425100031768",
+   "contact_person": "黃金稜",
+   "phone": "",
+   "address": "臺中市大里區國光路二段500號5樓之1"
+  },
+  {
+   "name": "鴻昌燈飾有限公司",
+   "tax_id": "53366007",
+   "bank": "台中銀行 社頭分行",
+   "account": "053-071221093266",
+   "contact_person": "李祐誠",
+   "phone": "04-8739337",
+   "address": "彰化縣社頭鄉橋頭村中山路三段208號"
+  },
+  {
+   "name": "得邑水電材料股份有限公司",
+   "tax_id": "60574976",
+   "bank": "中國信託822 營業部",
+   "account": "822-901540910911",
+   "contact_person": "彭健瑜",
+   "phone": "04-24790150",
+   "address": "臺中市南屯區鎮平里龍富路三段79號"
+  },
+  {
+   "name": "九如配管材料有限公司",
+   "tax_id": "60679710",
+   "bank": "合作金庫-朝馬分行",
+   "account": "006-1900717130931",
+   "contact_person": "黃文怡",
+   "phone": "0425633062",
+   "address": "臺中市西屯區何安里臺灣大道二段910號11樓之7"
+  },
+  {
+   "name": "晟城工程行",
+   "tax_id": "60803915",
+   "bank": "合作金庫-北台中分行",
+   "account": "006-1601717830242",
+   "contact_person": "陳伯豪",
+   "phone": "0932508853",
+   "address": "台中市大里區瑞城里向學路62巷23號1樓"
+  },
+  {
+   "name": "鑫曜工程有限公司",
+   "tax_id": "69399068",
+   "bank": "陽信銀行108 土城分行0874",
+   "account": "108-0874129420001470",
+   "contact_person": "蕭雅文",
+   "phone": "0222627359",
+   "address": "新北市土城區金城路三段54號4樓"
+  },
+  {
+   "name": "騰川工程行",
+   "tax_id": "72526617",
+   "bank": "合作金庫-建成分行",
+   "account": "006-1885717128015",
+   "contact_person": "簡民賜",
+   "phone": "0909797069",
+   "address": "台中市神岡區新庄里和睦路一段453巷1號1樓"
+  },
+  {
+   "name": "賀倫企業有限公司",
+   "tax_id": "86344877",
+   "bank": "台中商銀",
+   "account": "053-028220022761",
+   "contact_person": "陳昭富",
+   "phone": "04-25310077",
+   "address": "臺中市潭子區大富路一段68之9號"
+  },
+  {
+   "name": "裕錩工業股份有限公司",
+   "tax_id": "86390652",
+   "bank": "台灣銀行 豐原",
+   "account": "004-030001120453",
+   "contact_person": "林隆盛",
+   "phone": "04-25292785",
+   "address": "臺中市豐原區翁子里豐勢路1段460號"
+  },
+  {
+   "name": "君鎰企業社",
+   "tax_id": "87282786",
+   "bank": "合作金庫-神岡分行",
+   "account": "006-2077717049390",
+   "contact_person": "王于弦",
+   "phone": "0425623822",
+   "address": "台中市神岡區神岡里中正南街38巷12弄8號1樓"
+  },
+  {
+   "name": "知己工程行",
+   "tax_id": "88545549",
+   "bank": "二信-文山",
+   "account": "146-01930021002458",
+   "contact_person": "陳建佑",
+   "phone": "0975790821",
+   "address": "台中市南屯區文山里嶺東路370巷2號1樓"
+  },
+  {
+   "name": "穩順打石工程行",
+   "tax_id": "88548308",
+   "bank": "台灣中小企業銀行-忠明分行",
+   "account": "050-00712066091",
+   "contact_person": "曾郁涵",
+   "phone": "0918151315",
+   "address": "臺中市南區福順里忠明南路７８９號３８樓之２"
+  },
+  {
+   "name": "鑫旺事業有限公司",
+   "tax_id": "93577534",
+   "bank": "合作金庫-神岡分行",
+   "account": "006-2077717048661",
+   "contact_person": "蔡明峻",
+   "phone": "0939636779",
+   "address": "台中市神岡區北庄里八德路九如巷101弄30號1樓"
+  },
+  {
+   "name": "吉翔水電工程有限公司",
+   "tax_id": "94207905",
+   "bank": "合作金庫-忠明南路分行",
+   "account": "006-5193717530951",
+   "contact_person": "王柏翔",
+   "phone": "0966426681",
+   "address": "台中市西區忠明南路270號7樓之1"
+  },
+  {
+   "name": "富杉水電工程行",
+   "tax_id": "95249895",
+   "bank": "台銀004 大雅分行",
+   "account": "004-090001044805",
+   "contact_person": "許家源",
+   "phone": "0979687989",
+   "address": "臺中市潭子區東寶里大富路一段21號1樓"
+  },
+  {
+   "name": "梁心慈",
+   "tax_id": "BJ114-007",
+   "bank": "",
+   "account": "009-58529502715800",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "陳孟雪",
+   "tax_id": "BJ114-015",
+   "bank": "",
+   "account": "009-60759503531800",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "賴柏翔",
+   "tax_id": "TC105-001",
+   "bank": "",
+   "account": "006-5584765586518",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "張朝傑",
+   "tax_id": "TC105-002",
+   "bank": "",
+   "account": "009-40289502651400",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "廖文褀",
+   "tax_id": "TC107-001",
+   "bank": "",
+   "account": "009-40289502573100",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "詹智凱",
+   "tax_id": "TC108-001",
+   "bank": "",
+   "account": "009-40289502575900",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "蕭和賢",
+   "tax_id": "TC108-002",
+   "bank": "",
+   "account": "009-40289502638100",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "黃信儒",
+   "tax_id": "TC111-004",
+   "bank": "",
+   "account": "009-40425002478900",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "簡志軒",
+   "tax_id": "TC111-006",
+   "bank": "",
+   "account": "009-40289502571300",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "黃思舜",
+   "tax_id": "TC112-001",
+   "bank": "",
+   "account": "007-47150196817",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "陳嬿羽",
+   "tax_id": "TC112-005",
+   "bank": "",
+   "account": "009-40289502564200",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "戴文廷",
+   "tax_id": "TC113-002",
+   "bank": "",
+   "account": "009-96035001206500",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "黃冠傑",
+   "tax_id": "TC113-003",
+   "bank": "",
+   "account": "009-93499502833900",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "何嘉晉",
+   "tax_id": "TC113-010",
+   "bank": "",
+   "account": "009-40359503893500",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "郭珮馨",
+   "tax_id": "TC113-012",
+   "bank": "",
+   "account": "009-40359504034600",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "陳淑玲",
+   "tax_id": "TC113-013",
+   "bank": "",
+   "account": "009-58385006403100",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "蕭唐崙",
+   "tax_id": "TC114-002",
+   "bank": "",
+   "account": "009-58389503736700",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "程筱芸",
+   "tax_id": "TC114-010",
+   "bank": "",
+   "account": "009-93329504071800",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "于振中",
+   "tax_id": "TC114-011",
+   "bank": "",
+   "account": "009-40289500247000",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "何睿穎",
+   "tax_id": "TC114-014",
+   "bank": "",
+   "account": "009-58695003127700",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "簡承暘",
+   "tax_id": "TC114-016",
+   "bank": "",
+   "account": "009-40288605693300",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "廖宣儒",
+   "tax_id": "TC115-001",
+   "bank": "",
+   "account": "009-96039503296100",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "徐子濬",
+   "tax_id": "TC115-004",
+   "bank": "",
+   "account": "009-58905005450400",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "羅湘琴",
+   "tax_id": "TC115-005",
+   "bank": "",
+   "account": "009-85085003654000",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "邱銘志",
+   "tax_id": "TC115-007",
+   "bank": "",
+   "account": "009-40355004027300",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "張英專",
+   "tax_id": "",
+   "bank": "",
+   "account": "700-01410120252207",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "豐億通訊企業有限公司",
+   "tax_id": "89201732",
+   "bank": "二信-中興分行",
+   "account": "146-00960021029881",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "微笑環保科技有限公司",
+   "tax_id": "95443602",
+   "bank": "台中銀行-永靖分行",
+   "account": "053-0400-073221142688",
+   "contact_person": "呂宗翰",
+   "phone": "0926613138",
+   "address": "彰化縣大村鄉美港村中山路一段144號一樓"
+  },
+  {
+   "name": "億泰企業社",
+   "tax_id": "67969302",
+   "bank": "台中商銀 后里分行",
+   "account": "053-037221185302",
+   "contact_person": "謝孟潔",
+   "phone": "",
+   "address": "臺中市后里區仁里里村永興路11號一樓"
+  },
+  {
+   "name": "第一產物保險股份有限公司",
+   "tax_id": "",
+   "bank": "",
+   "account": "",
+   "contact_person": "劉怡初",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "凱映冷氣空調企業有限公司",
+   "tax_id": "00162296",
+   "bank": "中國信託 營業部",
+   "account": "882-901540897047",
+   "contact_person": "陳映仰",
+   "phone": "04 2380 5807",
+   "address": "臺中市西屯區何厝里臺灣大道二段740巷2弄15號1樓"
+  },
+  {
+   "name": "超立機電股分有限公司",
+   "tax_id": "97278488",
+   "bank": "第一台中",
+   "account": "007-40210068882",
+   "contact_person": "林通洲",
+   "phone": "049-2317982",
+   "address": "臺中市烏日區北里里太明路188號"
+  },
+  {
+   "name": "正久電機廠有限公司",
+   "tax_id": "5258187",
+   "bank": "華南銀行 南台中分行",
+   "account": "008-422100097655",
+   "contact_person": "洪均緯",
+   "phone": "04-22802345",
+   "address": "臺中市東區東門路81號1樓"
+  },
+  {
+   "name": "集崴數位出圖行",
+   "tax_id": "87249823",
+   "bank": "國泰世華 逢甲分行",
+   "account": "013-260035003501",
+   "contact_person": "張馨方",
+   "phone": "",
+   "address": "臺中市北屯區舊社里南興三路317號1樓"
+  },
+  {
+   "name": "正在旺企業有限公司",
+   "tax_id": "50901096",
+   "bank": "合作金庫 北士林分行",
+   "account": "006-5089717518496",
+   "contact_person": "蔡政家",
+   "phone": "02-2898-6207",
+   "address": "臺北市北投區清江路247巷8號2樓"
+  },
+  {
+   "name": "益勝消防工程有限公司",
+   "tax_id": "54248802",
+   "bank": "第一銀行 東勢分行",
+   "account": "007-42110719065",
+   "contact_person": "邱宥騰",
+   "phone": "04-25772157",
+   "address": "台中市東勢區下新里粵寧街中路巷11號"
+  },
+  {
+   "name": "明聲行",
+   "tax_id": "93917267",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": "臺中市大里區大里里長興三街19-5號"
+  },
+  {
+   "name": "李國維",
+   "tax_id": "",
+   "bank": "玉山銀行 北屯分行",
+   "account": "808-1388979138519",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "富利宏科技工程有限公司",
+   "tax_id": "24287460",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "太綺水電工程有限公司",
+   "tax_id": "45149105",
+   "bank": "彰化銀行 北屯分行",
+   "account": "009-40280104588300",
+   "contact_person": "賴柏翔",
+   "phone": "0422518710",
+   "address": "臺中市西屯區何源里華美西街二段355號"
+  },
+  {
+   "name": "合豐水電工程有限公司",
+   "tax_id": "90840722",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "維豐水電工程有限公司",
+   "tax_id": "52852043",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "虹樺營造有限公司",
+   "tax_id": "84846278",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "友嘉實業股份有限公司",
+   "tax_id": "30878408",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "鎮曜營造有限公司",
+   "tax_id": "63622202",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "呈峰營造股份有限公司",
+   "tax_id": "64852223",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "隆程興業有限公司",
+   "tax_id": "22772536",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "丹意企業股份有限公司",
+   "tax_id": "28465401",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "頌揚營造股份有限公司",
+   "tax_id": "23262960",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "頌恩營造股份有限公司",
+   "tax_id": "64937623",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "302旅步一營火力連",
+   "tax_id": "26914873",
+   "bank": "",
+   "account": "",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "廣弈消防器材實業行",
+   "tax_id": "97900914",
+   "bank": "合作金庫 朝馬分行",
+   "account": "006-1900717128537",
+   "contact_person": "余明志",
+   "phone": "04-27075045",
+   "address": "臺中市西屯區上安里上明三街15號3樓之2"
+  },
+  {
+   "name": "昇楷水電工程行",
+   "tax_id": "93360009",
+   "bank": "中國信託822 豐原分行",
+   "account": "882-392540880582",
+   "contact_person": "",
+   "phone": "",
+   "address": ""
+  },
+  {
+   "name": "郭錫奇捷成水電工程行",
+   "tax_id": "47430142",
+   "bank": "霧峰區農會 萬豐分部",
+   "account": "874-0023-87402010026886",
+   "contact_person": "",
+   "phone": "",
+   "address": "臺中市霧峰區萬豐里中正路264巷29號1樓"
+  },
+  {
+   "name": "承均水電工程行",
+   "tax_id": "95227647",
+   "bank": "第一和美",
+   "account": "007-47110043939",
+   "contact_person": "陳致承",
+   "phone": "0961350331",
+   "address": "彰化縣和美鎮竹園里彰新路四段38號1樓"
+  }
+ ],
+ "applicants": [
+  {
+   "employee_no": "TC111-006",
+   "name": "簡志軒",
+   "phone": "0978908851"
+  },
+  {
+   "employee_no": "TC108-002",
+   "name": "蕭和賢",
+   "phone": "0975383093"
+  },
+  {
+   "employee_no": "",
+   "name": "詹智凱",
+   "phone": "0912408267"
+  },
+  {
+   "employee_no": "",
+   "name": "賴柏翔",
+   "phone": "0931146580"
+  },
+  {
+   "employee_no": "",
+   "name": "黃信儒",
+   "phone": "0955921827"
+  },
+  {
+   "employee_no": "",
+   "name": "王均守",
+   "phone": ""
+  },
+  {
+   "employee_no": "",
+   "name": "李國維",
+   "phone": ""
+  },
+  {
+   "employee_no": "",
+   "name": "黃治翔",
+   "phone": "0911323717"
+  },
+  {
+   "employee_no": "",
+   "name": "陳孟雪",
+   "phone": ""
+  },
+  {
+   "employee_no": "",
+   "name": "梁心慈",
+   "phone": "0924010167"
+  },
+  {
+   "employee_no": "",
+   "name": "楊雅淇",
+   "phone": ""
+  }
+ ],
+ "sites": [
+  {
+   "name": "烏日榮泉安居-小榮泉",
+   "address": "烏日區三榮十七路1號",
+   "scope": "水電工程",
+   "supervisor": "簡志軒"
+  },
+  {
+   "name": "烏日榮泉安居-大榮泉",
+   "address": "烏日區三榮十七路1號",
+   "scope": "水電工程",
+   "supervisor": "蕭和賢"
+  },
+  {
+   "name": "V11豐謙植得",
+   "address": "台中市南屯區龍富十路225號",
+   "scope": "水電工程",
+   "supervisor": "詹智凱"
+  },
+  {
+   "name": "安安幼兒園",
+   "address": "505彰化縣鹿港鎮東石里海浴路222號",
+   "scope": "水電工程",
+   "supervisor": "賴柏翔"
+  },
+  {
+   "name": "自取-多案場",
+   "address": "",
+   "scope": "水電工程",
+   "supervisor": ""
+  },
+  {
+   "name": "環中路",
+   "address": "台中市北屯區昌平東七路102號(案場在此地址的對面)",
+   "scope": "水電工程",
+   "supervisor": "黃信儒"
+  },
+  {
+   "name": "E90",
+   "address": "台中市大墩四街",
+   "scope": "水電工程",
+   "supervisor": "詹智凱"
+  },
+  {
+   "name": "遠雄BH7大樓新建工程",
+   "address": "台中市北屯區敦富東街",
+   "scope": "水電工程",
+   "supervisor": "賴柏翔"
+  },
+  {
+   "name": "登陽碧柳",
+   "address": "台中市敦富路286號旁",
+   "scope": "水電工程",
+   "supervisor": "黃信儒"
+  },
+  {
+   "name": "沐風旅館",
+   "address": "台中市西屯區光明路153號",
+   "scope": "水電工程",
+   "supervisor": "蕭和賢"
+  },
+  {
+   "name": "登陽崇德3",
+   "address": "台中市北屯區崇德路三段207號",
+   "scope": "水電工程",
+   "supervisor": "黃信儒"
+  },
+  {
+   "name": "紀文娟",
+   "address": "台中市南屯區大墩南二街與大墩南街交叉口",
+   "scope": "水電工程",
+   "supervisor": "簡志軒"
+  },
+  {
+   "name": "公司總部",
+   "address": "臺中市北區頂厝里崇德路一段631號4樓之3-A棟",
+   "scope": "行政總務",
+   "supervisor": "賴柏翔"
+  },
+  {
+   "name": "B&O",
+   "address": "",
+   "scope": "水電工程",
+   "supervisor": ""
+  },
+  {
+   "name": "裕毛屋",
+   "address": "",
+   "scope": "水電工程",
+   "supervisor": ""
+  },
+  {
+   "name": "員林牛排館",
+   "address": "",
+   "scope": "水電工程",
+   "supervisor": ""
+  },
+  {
+   "name": "其他",
+   "address": "",
+   "scope": "水電工程",
+   "supervisor": ""
+  },
+  {
+   "name": "國府石岡",
+   "address": "",
+   "scope": "水電工程",
+   "supervisor": ""
+  },
+  {
+   "name": "大雅倉庫",
+   "address": "",
+   "scope": "其他",
+   "supervisor": ""
+  },
+  {
+   "name": "周霸虎老火鍋（BUFF HOT POT）",
+   "address": "台中市西屯區漢口路二段 221 號",
+   "scope": "水電工程",
+   "supervisor": ""
+  },
+  {
+   "name": "福星段",
+   "address": "",
+   "scope": "水電工程",
+   "supervisor": ""
+  },
+  {
+   "name": "淨膚寶",
+   "address": "",
+   "scope": "水電工程",
+   "supervisor": ""
+  }
+ ]
+}
