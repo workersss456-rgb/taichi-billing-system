@@ -353,9 +353,30 @@ router.put('/requests/:id/status', async (req, res) => {
   try {
     const { status } = req.body;
     if (!STATUSES.includes(status)) return res.status(400).json({ error: '狀態不正確' });
+    const current = (await pool.query('SELECT * FROM requests WHERE id=$1', [req.params.id])).rows[0];
+    if (!current) return res.status(404).json({ error: '找不到這張申請單' });
+
+    // 核簽（approved）時把收款帳戶帶進單據：請款抓本公司、付款抓廠商
+    // 主檔沒有帳戶資料時擋下，請後台先補（前端會跳出視窗）
+    if (status === 'approved' && (!current.bank_name || !current.bank_account)) {
+      const source = current.kind === 'billing'
+        ? (await pool.query('SELECT name, bank, account FROM companies WHERE id=$1', [current.company_id])).rows[0]
+        : (await pool.query('SELECT name, bank, account FROM counterparties WHERE id=$1', [current.counterparty_id])).rows[0];
+      if (!source || !source.bank || !source.account) {
+        return res.status(409).json({
+          error: 'need_bank',
+          message: `${source ? source.name : '對象'} 還沒有收款帳戶資料，請先補上再核簽`,
+          target: current.kind === 'billing' ? 'companies' : 'counterparties',
+          target_id: current.kind === 'billing' ? current.company_id : current.counterparty_id,
+          target_name: source ? source.name : '',
+        });
+      }
+      await pool.query('UPDATE requests SET bank_name=$1, bank_account=$2 WHERE id=$3',
+        [source.bank, source.account, req.params.id]);
+    }
+
     const row = (await pool.query('UPDATE requests SET status=$1, updated_at=NOW() WHERE id=$2 RETURNING *', [status, req.params.id])).rows[0];
-    if (!row) return res.status(404).json({ error: '找不到這張申請單' });
-    await log(row.id, '狀態變更', `${row.doc_no} → ${status}`);
+    await log(row.id, '狀態變更', `${row.doc_no} → ${status}${status === 'approved' ? `　帶入帳戶 ${row.bank_name || ''}` : ''}`);
     res.json(row);
   } catch (err) {
     console.error(err);

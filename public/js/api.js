@@ -9,7 +9,12 @@ const Api = {
     const res = await fetch(url, opt);
     let data = null;
     try { data = await res.json(); } catch (e) { /* 沒有 JSON 內容 */ }
-    if (!res.ok) throw new Error((data && data.error) || `伺服器錯誤（${res.status}）`);
+    if (!res.ok) {
+      const err = new Error((data && (data.message || data.error)) || `伺服器錯誤（${res.status}）`);
+      if (data && data.error) err.code = data.error;   // 例如 need_bank
+      err.payload = data;
+      throw err;
+    }
     return data;
   },
   get: (url) => Api.request('GET', url),

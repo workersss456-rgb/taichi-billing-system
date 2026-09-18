@@ -208,3 +208,41 @@ body.mode-payment .totals .net { color: var(--green); }
   .main { padding: 16px 14px 60px; }
   .kind-tabs { grid-template-columns: 1fr; }
 }
+
+/* ---------- 前台版面 ---------- */
+.front-shell { max-width: 900px; margin: 0 auto; }
+.front-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 12px 16px; background: var(--surface); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 20;
+}
+.front-user { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); }
+.front-tabs { display: flex; gap: 0; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 53px; z-index: 19; }
+.front-tab {
+  flex: 1; padding: 12px; border: none; background: none; font: inherit; cursor: pointer;
+  color: var(--text-secondary); border-bottom: 2px solid transparent;
+}
+.front-tab.active { color: var(--brand-navy); border-color: var(--brand-navy); font-weight: 700; background: #f8faff; }
+body.mode-payment .front-tab.active { color: var(--green); border-color: var(--green); background: #f0fdf6; }
+.front-main { padding: 16px 14px 60px; }
+
+/* ---------- 對象搜尋 ---------- */
+.search-box { position: relative; }
+.search-results {
+  position: absolute; left: 0; right: 0; top: calc(100% + 2px); z-index: 30;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  box-shadow: var(--shadow); max-height: 260px; overflow-y: auto;
+}
+.search-item {
+  display: flex; justify-content: space-between; gap: 10px; width: 100%; text-align: left;
+  padding: 9px 12px; border: none; background: none; font: inherit; cursor: pointer; border-bottom: 1px solid var(--border);
+}
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { background: var(--surface-sunken); }
+.search-item .tax { color: var(--text-faint); font-size: 12px; }
+.search-item.add-new { color: var(--brand-navy); font-weight: 600; }
+.picked {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 9px 12px; border: 1px solid var(--brand-navy); border-radius: 8px; background: #eef1fb; font-weight: 600;
+}
+body.mode-payment .picked { border-color: var(--green); background: #ecfdf5; }

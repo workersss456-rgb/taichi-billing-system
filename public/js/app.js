@@ -62,6 +62,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   bindList();
   bindMasters();
   bindSettleModal();
+  bindBankModal();
   document.getElementById('m-month').value = currentMonth();
   document.getElementById('m-month').addEventListener('change', loadMonthly);
   if (sessionStorage.getItem('appPassword')) {
@@ -80,6 +81,8 @@ async function start() {
   loadOutstanding('payment');
   loadOutstanding('billing');
   loadMonthly();
+  searchRequests();
+  refreshPendingBadge();
 }
 
 // ============================================================
@@ -360,6 +363,15 @@ function bindList() {
   document.getElementById('q-export').addEventListener('click', exportCsv);
 }
 
+async function refreshPendingBadge() {
+  try {
+    const rows = await Api.get('/api/requests?status=pending_approval');
+    const badge = document.getElementById('pending-badge');
+    badge.textContent = rows.length;
+    badge.style.display = rows.length ? 'inline-flex' : 'none';
+  } catch (err) { /* 徽章失敗不影響操作 */ }
+}
+
 async function searchRequests() {
   const box = document.getElementById('list-result');
   box.innerHTML = '<p class="small-note">查詢中…</p>';
@@ -376,6 +388,7 @@ async function searchRequests() {
     document.getElementById('list-summary').innerHTML = rows.length
       ? `共 ${rows.length} 張　淨額合計 NT$ ${money(net)}　未結 NT$ ${money(outstanding)}`
       : '';
+    refreshPendingBadge();
     if (!rows.length) { box.innerHTML = '<div class="empty">沒有符合條件的單據</div>'; return; }
     box.innerHTML = rows.map(renderRequestCard).join('');
     bindCardActions(box);
@@ -480,7 +493,11 @@ async function renderDetail(id) {
         showToast('狀態已更新', 'success');
         searchRequests();
         loadOutstanding(r.kind);
-      } catch (err) { showToast(err.message, 'error'); }
+      } catch (err) {
+        // 主檔沒有收款帳戶時，跳出視窗請使用者補上
+        if (err.code === 'need_bank') openBankModal(r, b.dataset.status, err.payload);
+        else showToast(err.message, 'error');
+      }
     }));
     box.querySelector('.print-btn').addEventListener('click', () => window.open(`print.html?id=${r.id}`, '_blank'));
     const editBtn = box.querySelector('.edit-btn');
@@ -566,6 +583,54 @@ function openSettleModal(r) {
   document.getElementById('settle-bank').value = '';
   document.getElementById('settle-note').value = '';
   document.getElementById('settle-modal').style.display = 'flex';
+}
+
+// ============================================================
+// 核簽時補收款帳戶（主檔沒資料就跳這個視窗）
+// ============================================================
+let bankModalCtx = null;
+
+function bindBankModal() {
+  document.getElementById('bank-modal-cancel').addEventListener('click', () => {
+    document.getElementById('bank-modal').style.display = 'none';
+  });
+  document.getElementById('bank-modal-save').addEventListener('click', async () => {
+    const bank = document.getElementById('bank-modal-bank').value.trim();
+    const account = document.getElementById('bank-modal-account').value.trim();
+    if (!bank || !account) return showToast('請填寫銀行與帳號', 'error');
+    if (!bankModalCtx) return;
+    const { request, status, type, id } = bankModalCtx;
+    try {
+      // 一律寫回主檔（勾選時），再重新核簽，讓單據帶到快照
+      const payload = { bank, account, tax_id: document.getElementById('bank-modal-taxid').value.trim() };
+      const target = masters[type].find((x) => x.id === id) || {};
+      await Api.put(`/api/masters/${type}/${id}`, { name: target.name, ...payload });
+      await Api.put(`/api/requests/${request.id}/status`, { status });
+      if (!document.getElementById('bank-modal-save-master').checked) {
+        // 不想留在主檔：單據已經取到快照，主檔再清掉
+        await Api.put(`/api/masters/${type}/${id}`, { name: target.name, bank: '', account: '' });
+      }
+      document.getElementById('bank-modal').style.display = 'none';
+      showToast('已補上帳戶並完成核簽', 'success');
+      await loadMasters();
+      searchRequests();
+      loadOutstanding(request.kind);
+    } catch (err) { showToast(err.message, 'error'); }
+  });
+}
+
+function openBankModal(request, status, info) {
+  const type = (info && info.target) || (request.kind === 'billing' ? 'companies' : 'counterparties');
+  const id = (info && info.target_id) || (request.kind === 'billing' ? request.company_id : request.counterparty_id);
+  const target = masters[type].find((x) => x.id === id) || { name: (info && info.target_name) || request.counterparty_name };
+  bankModalCtx = { request, status, type, id };
+  document.getElementById('bank-modal-summary').textContent =
+    `${target.name} 尚未建立收款帳戶，補上之後才能完成核簽。`;
+  document.getElementById('bank-modal-taxid').value = target.tax_id || '';
+  document.getElementById('bank-modal-bank').value = target.bank || '';
+  document.getElementById('bank-modal-account').value = target.account || '';
+  document.getElementById('bank-modal-save-master').checked = true;
+  document.getElementById('bank-modal').style.display = 'flex';
 }
 
 // ============================================================

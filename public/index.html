@@ -3,61 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>工程請款／付款系統</title>
+<title>工程請款／付款申請</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="front">
 
 <div class="toast-stack" id="toast-stack"></div>
 
-<!-- ========== 登入 ========== -->
-<div class="login-screen" id="login-screen">
+<!-- ========== 身分識別 ========== -->
+<div class="login-screen" id="id-screen">
   <div class="login-card">
     <div class="brand-mark">帳</div>
-    <h2>工程請款／付款系統</h2>
-    <p class="sub">請輸入系統密碼以繼續</p>
-    <div class="field"><input type="password" id="login-pw" placeholder="系統密碼"></div>
-    <button class="btn btn-primary btn-block" id="login-btn">登入</button>
-    <p class="small-note danger" id="login-error"></p>
+    <h2>工程請款／付款申請</h2>
+
+    <div id="phone-step">
+      <p class="sub">不需要密碼，輸入手機號碼辨識身分即可。</p>
+      <div class="field"><input type="tel" id="phone-input" placeholder="聯絡手機" inputmode="numeric"></div>
+      <button class="btn btn-primary btn-block" id="phone-btn">查詢 / 登入</button>
+      <p class="small-note">第一次使用？輸入手機後按上面按鈕，系統會請您補填姓名完成建檔。</p>
+    </div>
+
+    <div id="register-step" style="display:none;">
+      <p class="sub">查不到這組手機，請補填基本資料。</p>
+      <div class="field"><label class="req">姓名</label><input type="text" id="reg-name"></div>
+      <div class="field"><label>員工編號（選填）</label><input type="text" id="reg-no"></div>
+      <button class="btn btn-primary btn-block" id="reg-btn">完成建檔</button>
+      <button class="btn btn-secondary btn-block" id="reg-back" style="margin-top:8px;">← 換一組手機號碼</button>
+    </div>
+
+    <p class="small-note danger" id="id-error"></p>
   </div>
 </div>
 
 <!-- ========== 主畫面 ========== -->
-<div class="shell" id="shell" style="display:none;">
-  <aside class="sidebar">
-    <div class="brand"><span class="brand-mark">帳</span>請款／付款</div>
+<div class="front-shell" id="shell" style="display:none;">
+  <header class="front-header">
+    <div class="brand"><span class="brand-mark">帳</span>請款／付款申請</div>
+    <div class="front-user">
+      <span id="who"></span>
+      <button class="btn btn-secondary btn-sm" id="switch-user">切換</button>
+    </div>
+  </header>
 
-    <div class="nav-group">單據作業</div>
-    <button class="nav-item active" data-panel="new">新增申請單</button>
-    <button class="nav-item" data-panel="list">單據查詢</button>
+  <nav class="front-tabs">
+    <button class="front-tab active" data-panel="new">填寫申請單</button>
+    <button class="front-tab" data-panel="mine">我的申請單</button>
+  </nav>
 
-    <div class="nav-group">報表</div>
-    <button class="nav-item" data-panel="payable">未付清單<span class="nav-badge" id="payable-badge" style="display:none;">0</span></button>
-    <button class="nav-item" data-panel="receivable">未收清單<span class="nav-badge" id="receivable-badge" style="display:none;">0</span></button>
-    <button class="nav-item" data-panel="monthly">月結表</button>
+  <main class="front-main">
 
-    <div class="nav-group">系統</div>
-    <button class="nav-item" data-panel="masters">主檔維護</button>
-    <button class="nav-item" data-panel="logs">操作紀錄</button>
-    <button class="nav-item logout" id="logout-btn">登出</button>
-  </aside>
-
-  <main class="main">
-
-    <!-- ---------- 新增／編輯申請單 ---------- -->
+    <!-- ---------- 填寫申請單 ---------- -->
     <section class="panel active" id="panel-new">
-      <div class="section-title">
-        <h2 id="form-title">新增申請單</h2>
-        <button class="btn btn-secondary btn-sm" id="form-reset" style="display:none;">取消編輯，改為新增</button>
-      </div>
-
       <div class="kind-tabs">
-        <button class="kind-tab active" data-kind="billing">
-          <strong>請款申請單</strong><span>向客戶／業主請款（用本公司帳戶收款）</span>
-        </button>
-        <button class="kind-tab" data-kind="payment">
-          <strong>付款申請單</strong><span>支付款項給廠商（匯到廠商帳戶）</span>
-        </button>
+        <button class="kind-tab active" data-kind="billing"><strong>請款申請單</strong><span>向客戶／業主請款</span></button>
+        <button class="kind-tab" data-kind="payment"><strong>付款申請單</strong><span>支付款項給廠商</span></button>
       </div>
 
       <div class="card">
@@ -69,22 +68,27 @@
             </select>
           </div>
           <div class="field"><label class="req">歸屬公司</label><select id="f-company"></select></div>
-          <div class="field"><label class="req" id="f-party-label">請款對象（客戶／業主）</label><select id="f-party"></select></div>
-          <div class="field"><label class="req">申請人／經辦人</label><select id="f-applicant"></select></div>
+        </div>
+
+        <div class="field">
+          <label class="req" id="f-party-label">請款對象（客戶／業主）</label>
+          <div class="search-box">
+            <input type="text" id="party-search" placeholder="輸入公司名稱或統一編號搜尋" autocomplete="off">
+            <div class="search-results" id="party-results" style="display:none;"></div>
+          </div>
+          <div class="picked" id="party-picked" style="display:none;">
+            <span id="party-picked-name"></span>
+            <button class="icon-btn" id="party-clear">✕ 重選</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
           <div class="field"><label>案場名稱</label><select id="f-site"></select></div>
           <div class="field"><label>發票／憑證號碼</label><input type="text" id="f-invoice-no" placeholder="例如 CA21298403、收據、免用發票"></div>
           <div class="field"><label>單據開立日期</label><input type="date" id="f-invoice-date"></div>
-          <div class="field"><label>預計撥款／收款日</label><input type="date" id="f-due-date"></div>
+          <div class="field"><label>希望撥款／收款日</label><input type="date" id="f-due-date"></div>
         </div>
         <label class="checkline"><input type="checkbox" id="f-tax-free"> 本單據為免稅／無稅額（政府規費、收據等）</label>
-
-        <div class="bank-box">
-          <span class="bank-badge" id="bank-badge">目前帶入：本公司收款帳戶</span>
-          <div class="grid-2">
-            <div class="field"><label>收款銀行（自動帶入）</label><input type="text" id="f-bank-name" readonly></div>
-            <div class="field"><label>收款帳號（自動帶入）</label><input type="text" id="f-bank-account" readonly></div>
-          </div>
-        </div>
       </div>
 
       <div class="card">
@@ -92,23 +96,12 @@
         <div class="table-wrap">
           <table class="table" id="item-table">
             <thead><tr>
-              <th style="min-width:180px;">品名／規格</th><th style="width:90px;">數量</th><th style="width:80px;">單位</th>
-              <th style="width:110px;">單價</th><th style="width:110px;">未稅金額</th><th style="width:110px;">含稅金額</th><th style="width:50px;"></th>
+              <th style="min-width:160px;">品名／規格</th><th style="width:80px;">數量</th><th style="width:70px;">單位</th>
+              <th style="width:100px;">單價</th><th style="width:100px;">未稅</th><th style="width:100px;">含稅</th><th style="width:40px;"></th>
             </tr></thead>
             <tbody id="item-tbody"></tbody>
           </table>
         </div>
-      </div>
-
-      <div class="card">
-        <h3>扣抵項目</h3>
-        <p class="small-note">這幾項會從含稅總額扣除，算出實際要付／要收的淨額。</p>
-        <div class="grid-3">
-          <div class="field"><label>保留款</label><input type="number" step="1" id="f-retention" value="0"></div>
-          <div class="field"><label>扣款</label><input type="number" step="1" id="f-deduction" value="0"></div>
-          <div class="field"><label>預付沖抵</label><input type="number" step="1" id="f-prepaid" value="0"></div>
-        </div>
-        <div class="field"><label>扣款原因</label><input type="text" id="f-deduction-note" placeholder="例如：材料損壞賠償、代墊費用"></div>
       </div>
 
       <div class="card">
@@ -128,119 +121,47 @@
       <div class="totals">
         <div>小計（未稅）：NT$ <span id="t-subtotal">0</span></div>
         <div>營業稅（<span id="t-tax-label">5%</span>）：NT$ <span id="t-tax">0</span></div>
-        <div>含稅總計：NT$ <span id="t-total">0</span></div>
-        <div class="net">應付／應收淨額：NT$ <span id="t-net">0</span></div>
+        <div class="net">含稅總計：NT$ <span id="t-total">0</span></div>
+        <p class="small-note">保留款、扣款與收款帳戶由財務於核簽時處理。</p>
       </div>
 
       <div class="form-actions">
         <button class="btn btn-primary btn-lg" id="submit-btn">確認送出</button>
-        <button class="btn btn-secondary" id="save-draft-btn">存成草稿</button>
       </div>
     </section>
 
-    <!-- ---------- 單據查詢 ---------- -->
-    <section class="panel" id="panel-list">
-      <div class="section-title"><h2>單據查詢</h2></div>
+    <!-- ---------- 我的申請單 ---------- -->
+    <section class="panel" id="panel-mine">
       <div class="filter-bar">
         <div class="field"><label>類別</label><select id="q-kind">
-          <option value="">全部</option><option value="billing">請款（應收）</option><option value="payment">付款（應付）</option>
+          <option value="">全部</option><option value="billing">請款</option><option value="payment">付款</option>
         </select></div>
-        <div class="field"><label>狀態</label><select id="q-status">
-          <option value="">全部</option><option value="draft">草稿</option><option value="pending_approval">待核簽</option>
-          <option value="approved">已核准</option><option value="scheduled">已排款</option><option value="invoiced">已開票</option>
-          <option value="partial">部分收付</option><option value="settled">已完成</option>
-        </select></div>
-        <div class="field"><label>關鍵字</label><input type="text" id="q-keyword" placeholder="單號／發票號／對象／案場／申請人"></div>
-        <div class="field"><label>起始日</label><input type="date" id="q-from"></div>
-        <div class="field"><label>結束日</label><input type="date" id="q-to"></div>
-        <label class="checkline"><input type="checkbox" id="q-voided"> 含作廢</label>
+        <div class="field"><label>關鍵字</label><input type="text" id="q-keyword" placeholder="單號／發票號／對象／案場"></div>
         <button class="btn btn-primary" id="q-search">查詢</button>
-        <button class="btn btn-secondary" id="q-export">匯出 CSV</button>
       </div>
-      <div id="list-summary" class="summary-row"></div>
-      <div id="list-result"></div>
-    </section>
-
-    <!-- ---------- 未付 / 未收 ---------- -->
-    <section class="panel" id="panel-payable">
-      <div class="section-title"><h2>未付清單（應付廠商）</h2></div>
-      <div id="payable-body"></div>
-    </section>
-
-    <section class="panel" id="panel-receivable">
-      <div class="section-title"><h2>未收清單（應收客戶）</h2></div>
-      <div id="receivable-body"></div>
-    </section>
-
-    <!-- ---------- 月結 ---------- -->
-    <section class="panel" id="panel-monthly">
-      <div class="section-title"><h2>月結表</h2></div>
-      <div class="filter-bar">
-        <div class="field"><label>月份</label><input type="month" id="m-month"></div>
-      </div>
-      <div id="monthly-body"></div>
-    </section>
-
-    <!-- ---------- 主檔 ---------- -->
-    <section class="panel" id="panel-masters">
-      <div class="section-title"><h2>主檔維護</h2></div>
-      <div class="sub-tabs" id="master-tabs">
-        <button class="sub-tab active" data-master="counterparties">廠商／客戶</button>
-        <button class="sub-tab" data-master="companies">公司</button>
-        <button class="sub-tab" data-master="applicants">申請人</button>
-        <button class="sub-tab" data-master="sites">案場</button>
-      </div>
-      <div class="card">
-        <div class="card-head"><h3 id="master-title">廠商／客戶</h3>
-          <button class="btn btn-primary btn-sm" id="master-add">＋ 新增</button>
-        </div>
-        <p class="small-note">主檔不提供刪除（歷史單據會引用），不再使用請按「停用」。</p>
-        <div class="table-wrap"><table class="table" id="master-table"></table></div>
-      </div>
-    </section>
-
-    <!-- ---------- 操作紀錄 ---------- -->
-    <section class="panel" id="panel-logs">
-      <div class="section-title"><h2>操作紀錄</h2></div>
-      <div class="card"><div class="table-wrap"><table class="table" id="logs-table"></table></div></div>
+      <p class="small-note">這裡只會顯示您自己送出的申請單。</p>
+      <div id="mine-result"></div>
     </section>
 
   </main>
 </div>
 
-<!-- ========== 主檔編輯視窗 ========== -->
-<div class="modal-backdrop" id="master-modal" style="display:none;">
+<!-- ========== 新增廠商／客戶 ========== -->
+<div class="modal-backdrop" id="party-modal" style="display:none;">
   <div class="modal">
-    <h3 id="master-modal-title">新增</h3>
-    <div id="master-form"></div>
+    <h3 id="party-modal-title">建立新的對象</h3>
+    <p class="small-note">系統裡查不到這家公司，請補上基本資料後繼續。銀行帳戶由財務於核簽時填寫。</p>
+    <div class="field"><label class="req">公司名稱</label><input type="text" id="np-name"></div>
+    <div class="field"><label>統一編號</label><input type="text" id="np-taxid" inputmode="numeric"></div>
+    <div class="field"><label>負責人</label><input type="text" id="np-person"></div>
+    <div class="field"><label>聯絡電話</label><input type="text" id="np-phone"></div>
     <div class="modal-actions">
-      <button class="btn btn-primary" id="master-save">儲存</button>
-      <button class="btn btn-secondary" id="master-cancel">取消</button>
+      <button class="btn btn-primary" id="np-save">建立並選用</button>
+      <button class="btn btn-secondary" id="np-cancel">取消</button>
     </div>
   </div>
 </div>
 
-<!-- ========== 登記收付視窗 ========== -->
-<div class="modal-backdrop" id="settle-modal" style="display:none;">
-  <div class="modal">
-    <h3>登記收付</h3>
-    <p class="small-note" id="settle-summary"></p>
-    <input type="hidden" id="settle-request-id">
-    <div class="field"><label>日期</label><input type="date" id="settle-date"></div>
-    <div class="field"><label>金額</label><input type="number" step="1" id="settle-amount"></div>
-    <div class="field"><label>銀行</label><input type="text" id="settle-bank" placeholder="例如 彰銀"></div>
-    <div class="field"><label>方式</label><select id="settle-method">
-      <option>匯款</option><option>支票</option><option>現金</option><option>抵扣</option>
-    </select></div>
-    <div class="field"><label>備註</label><input type="text" id="settle-note"></div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="settle-save">登記</button>
-      <button class="btn btn-secondary" id="settle-cancel">取消</button>
-    </div>
-  </div>
-</div>
-
-<script src="js/api.js"></script>
-<script src="js/app.js"></script>
+<script src="js/front.js"></script>
 </body>
 </html>

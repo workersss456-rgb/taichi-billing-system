@@ -3,29 +3,41 @@
   const root = document.getElementById('root');
   const id = new URLSearchParams(location.search).get('id');
   if (!id) { root.innerHTML = '<p>缺少單號參數</p>'; return; }
-  if (!sessionStorage.getItem('appPassword')) {
-    root.innerHTML = '<p style="text-align:center;padding:40px;">請先回到系統主畫面登入，再從單據列表按「列印申請單」開啟。</p>';
+  const phone = localStorage.getItem('billingPhone');
+  const hasAdmin = !!sessionStorage.getItem('appPassword');
+  if (!hasAdmin && !phone) {
+    root.innerHTML = '<p style="text-align:center;padding:40px;">請先回到系統登入，再從單據列表按「列印申請單」開啟。</p>';
     return;
   }
   try {
-    const r = await Api.get(`/api/requests/${id}`);
+    // 後台帶密碼可看完整版（含帳戶與扣抵）；前台用手機只看得到自己的單，且不含帳戶
+    let r, full = true;
+    if (hasAdmin) {
+      r = await Api.get(`/api/requests/${id}`);
+    } else {
+      const res = await fetch(`/api/f/requests/${id}?phone=${encodeURIComponent(phone)}`);
+      r = await res.json();
+      if (!res.ok) throw new Error(r.error || '讀取失敗');
+      full = false;
+    }
     document.title = `${r.doc_no}_${r.counterparty_name}`;
-    root.innerHTML = render(r);
+    root.innerHTML = render(r, full);
+    document.getElementById('hint').textContent = full ? '' : '前台版本不含收款帳戶與扣抵金額';
   } catch (err) {
     root.innerHTML = `<p style="text-align:center;padding:40px;">${escapeHtml(err.message)}</p>`;
   }
 })();
 
-function render(r) {
+function render(r, full) {
   const billing = r.kind === 'billing';
   const title = billing ? '工 程 請 款 申 請 單' : '工 程 付 款 申 請 單';
   const partyLabel = billing ? '請款對象（客戶）' : '付款對象（廠商）';
   const bankLabel = billing ? '本公司收款銀行' : '廠商收款銀行';
-  const deductions = [
+  const deductions = full ? [
     ['保留款', r.retention_amount],
     ['扣款', r.deduction_amount],
     ['預付沖抵', r.prepaid_offset],
-  ].filter(([, v]) => Number(v) > 0);
+  ].filter(([, v]) => Number(v) > 0) : [];
 
   return `
   <div class="head">
@@ -51,13 +63,15 @@ function render(r) {
       <td class="label">申請人</td><td>${escapeHtml(r.applicant_name || '')}</td>
       <td class="label">憑證開立日</td><td>${r.invoice_date || '—'}</td>
     </tr>
-    <tr>
+    ${full ? `<tr>
       <td class="label">${bankLabel}</td>
       <td colspan="3" style="color:#1d4ed8; font-weight:700;">
-        ${escapeHtml(r.bank_name || '無資料')} ／ 帳號：${escapeHtml(r.bank_account || '無資料')}
+        ${escapeHtml(r.bank_name || '（核簽時帶入）')} ／ 帳號：${escapeHtml(r.bank_account || '—')}
         ${r.due_date ? `　　預計${billing ? '收款' : '撥款'}日：${r.due_date}` : ''}
       </td>
-    </tr>
+    </tr>` : `<tr>
+      <td class="label">希望${billing ? '收款' : '撥款'}日</td><td colspan="3">${r.due_date || '—'}</td>
+    </tr>`}
   </table>
 
   <table class="items">
@@ -83,13 +97,13 @@ function render(r) {
     <tr><td class="label">營業稅 ${r.is_tax_free ? '（免稅）' : '（5%）'}</td><td>$${money(r.tax)}</td></tr>
     <tr><td class="label">含稅總計</td><td>$${money(r.total)}</td></tr>
     ${deductions.map(([label, v]) => `<tr><td class="label">${label}</td><td>−$${money(v)}</td></tr>`).join('')}
-    <tr class="net"><td class="label">本期${billing ? '應收' : '應付'}淨額</td><td>$${money(r.net_amount)}</td></tr>
+    ${full ? `<tr class="net"><td class="label">本期${billing ? '應收' : '應付'}淨額</td><td>$${money(r.net_amount)}</td></tr>
     ${Number(r.paid_amount) > 0 ? `<tr><td class="label">已${billing ? '收' : '付'}</td><td>$${money(r.paid_amount)}</td></tr>
-      <tr><td class="label">未結</td><td>$${money(r.outstanding)}</td></tr>` : ''}
+      <tr><td class="label">未結</td><td>$${money(r.outstanding)}</td></tr>` : ''}` : ''}
   </table>
   <div style="clear:both;"></div>
 
-  ${r.deduction_note ? `<div class="memo"><strong>扣款原因：</strong>${escapeHtml(r.deduction_note)}</div>` : ''}
+  ${full && r.deduction_note ? `<div class="memo"><strong>扣款原因：</strong>${escapeHtml(r.deduction_note)}</div>` : ''}
   ${r.note ? `<div class="memo"><strong>備註說明：</strong><br>${escapeHtml(r.note).replace(/\n/g, '<br>')}</div>` : ''}
 
   <table class="sign">
