@@ -246,3 +246,15 @@ body.mode-payment .front-tab.active { color: var(--green); border-color: var(--g
   padding: 9px 12px; border: 1px solid var(--brand-navy); border-radius: 8px; background: #eef1fb; font-weight: 600;
 }
 body.mode-payment .picked { border-color: var(--green); background: #ecfdf5; }
+
+/* ---------- 前後台切換按鈕 ---------- */
+.switch-link {
+  display: inline-flex; align-items: center; gap: 4px; text-decoration: none;
+  background: var(--brand-gold); color: #3b2a00 !important; font-weight: 700; border-radius: 8px;
+}
+.switch-link:hover { filter: brightness(1.05); }
+.sidebar .switch-link { margin-bottom: 10px; justify-content: center; }
+@media (max-width: 760px) {
+  .front-user { gap: 6px; font-size: 12px; }
+  .front-user .switch-link { padding: 5px 8px; }
+}
