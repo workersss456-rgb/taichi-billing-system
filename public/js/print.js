@@ -31,7 +31,7 @@
 function render(r, full) {
   const billing = r.kind === 'billing';
   const title = billing ? '工 程 請 款 申 請 單' : '工 程 付 款 申 請 單';
-  const partyLabel = billing ? '請款對象（客戶）' : '付款對象（廠商）';
+  const partyLabel = billing ? '請款對象' : '付款對象';
   const bankLabel = billing ? '本公司收款銀行' : '廠商收款銀行';
   const deductions = full ? [
     ['保留款', r.retention_amount],
@@ -132,7 +132,7 @@ function render(r, full) {
 // 簽核欄：由左至右排列；關卡順序由右至左為 1～5（最右邊第 1 關）。下一列另有一格（出納會計收付確認）
 const DEFAULT_SIGN = ['成控部', '採購', '工務經理', '工務副理', '工務部'];
 const DEFAULT_SIGN6 = '出納會計(收付確認)';
-const DATE_LINE = '　　／　　／　　';   // 每關底下留給簽核人手寫日期
+const DATE_LINE = '日期　　／　　／';   // 每關底下留給簽核人手寫日期
 function signSteps(r) {
   return DEFAULT_SIGN.map((d, i) => String(r['sign_' + (i + 1)] || '').trim() || d);
 }
