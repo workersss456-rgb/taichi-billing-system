@@ -168,6 +168,7 @@ async function init() {
     ALTER TABLE companies ADD COLUMN IF NOT EXISTS sign_3 TEXT;
     ALTER TABLE companies ADD COLUMN IF NOT EXISTS sign_4 TEXT;
     ALTER TABLE companies ADD COLUMN IF NOT EXISTS sign_5 TEXT;
+    ALTER TABLE companies ADD COLUMN IF NOT EXISTS sign_6 TEXT;
   `);
 
   await seedMasters();

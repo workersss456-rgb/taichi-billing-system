@@ -29,7 +29,7 @@ function frontView(r) {
     status: r.status, voided: r.voided, note: r.note,
     created_date: r.created_date,
     company_print_title: r.company_print_title,
-    sign_1: r.sign_1, sign_2: r.sign_2, sign_3: r.sign_3, sign_4: r.sign_4, sign_5: r.sign_5,
+    sign_1: r.sign_1, sign_2: r.sign_2, sign_3: r.sign_3, sign_4: r.sign_4, sign_5: r.sign_5, sign_6: r.sign_6,
   };
 }
 
@@ -263,7 +263,7 @@ router.get('/requests/:id', async (req, res) => {
               TO_CHAR(r.invoice_date,'YYYY-MM-DD') AS invoice_date_fmt,
               TO_CHAR(r.due_date,'YYYY-MM-DD') AS due_date_fmt,
               c.print_title AS company_print_title,
-              c.sign_1, c.sign_2, c.sign_3, c.sign_4, c.sign_5
+              c.sign_1, c.sign_2, c.sign_3, c.sign_4, c.sign_5, c.sign_6
        FROM requests r LEFT JOIN companies c ON c.id = r.company_id
        WHERE r.id = $1 AND r.applicant_id = $2`, [req.params.id, user.id]
     )).rows[0];

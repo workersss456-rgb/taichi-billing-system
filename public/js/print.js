@@ -22,7 +22,7 @@
     }
     document.title = `${r.doc_no}_${r.counterparty_name}`;
     root.innerHTML = render(r, full);
-    document.getElementById('hint').textContent = (full ? '' : '前台版本不含收款帳戶與扣抵金額　') + '簽核欄名稱可直接點擊修改後再列印（僅此次有效）';
+    document.getElementById('hint').textContent = (full ? '' : '前台版本不含收款帳戶與扣抵金額　') + '備註：簽核關卡名稱可直接點擊修改後再列印（僅此次有效）；關卡順序由右至左為 1～5';
   } catch (err) {
     root.innerHTML = `<p style="text-align:center;padding:40px;">${escapeHtml(err.message)}</p>`;
   }
@@ -108,10 +108,16 @@ function render(r, full) {
 
   <table class="sign">
     <thead><tr>
-      ${signSteps(r).map((t) => `<th style="width:20%;" contenteditable="true" title="可直接點擊修改名稱">${escapeHtml(t)}</th>`).join('')}
+      ${signSteps(r).map((t, i) => signTh(t, 5 - i)).join('')}
     </tr></thead>
     <tbody><tr>
-      <td></td><td></td><td></td><td></td><td>${escapeHtml(r.applicant_name || '')}</td>
+      ${DEFAULT_SIGN.map(() => `<td>${DATE_LINE}</td>`).join('')}
+    </tr></tbody>
+    <thead><tr class="row2">
+      <td colspan="4" class="blank"></td>${signTh(signStep6(r), 1)}
+    </tr></thead>
+    <tbody><tr class="row2">
+      <td colspan="4" class="blank"></td><td>${DATE_LINE}</td>
     </tr></tbody>
   </table>
 
@@ -123,10 +129,16 @@ function render(r, full) {
   </div>` : ''}`;
 }
 
-// 五格簽核欄：用公司主檔設定的名稱，沒填就用預設。最後一格（經辦人）下方會自動帶申請人
-const DEFAULT_SIGN = ['出納會計', '總經理', '覆核', '工務主任', '經辦人'];
+// 簽核欄：由左至右排列；關卡順序由右至左為 1～5（最右邊第 1 關）。下一列另有一格（出納會計收付確認）
+const DEFAULT_SIGN = ['成控部', '採購', '工務經理', '工務副理', '工務部'];
+const DEFAULT_SIGN6 = '出納會計(收付確認)';
+const DATE_LINE = '　　／　　／　　';   // 每關底下留給簽核人手寫日期
 function signSteps(r) {
   return DEFAULT_SIGN.map((d, i) => String(r['sign_' + (i + 1)] || '').trim() || d);
+}
+function signStep6(r) { return String(r.sign_6 || '').trim() || DEFAULT_SIGN6; }
+function signTh(name, n) {
+  return `<th style="width:20%;"><div class="ord">第${n}關</div><div class="nm" contenteditable="true" title="可直接點擊修改關卡名稱">${escapeHtml(name)}</div></th>`;
 }
 
 function money(n) { return (Number(n) || 0).toLocaleString('zh-TW', { maximumFractionDigits: 0 }); }
