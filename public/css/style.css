@@ -258,3 +258,6 @@ body.mode-payment .picked { border-color: var(--green); background: #ecfdf5; }
   .front-user { gap: 6px; font-size: 12px; }
   .front-user .switch-link { padding: 5px 8px; }
 }
+
+/* 請款對象搜尋框：輸入了但沒對到任何對象時標紅 */
+input.invalid { border-color: #dc2626 !important; background: #fef2f2; }

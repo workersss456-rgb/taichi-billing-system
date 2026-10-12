@@ -114,9 +114,46 @@ function goPanel(name) {
 async function loadMasters() {
   masters = await Api.get('/api/masters');
   fillSelect('f-company', masters.companies, '請選擇歸屬公司');
-  fillSelect('f-party', masters.counterparties, '請選擇對象');
+  fillPartyList();
   fillSelect('f-applicant', masters.applicants, '請選擇申請人');
   fillSelect('f-site', masters.sites, '（不指定案場）', true);
+}
+
+// 請款／付款對象：輸入名稱或統編即可篩選，選到後把 id 放進隱藏欄位 f-party（其餘程式照舊讀 f-party）
+function fillPartyList() {
+  const active = masters.counterparties.filter((x) => x.active !== false);
+  document.getElementById('party-list').innerHTML = active.map((x) =>
+    `<option value="${escapeAttr(x.name)}" label="${escapeAttr([x.tax_id, x.contact_person].filter(Boolean).join('　'))}"></option>`
+  ).join('');
+  syncPartyText();
+}
+function syncPartyText() {   // 依隱藏欄位的 id 回填可見的搜尋框
+  const id = document.getElementById('f-party').value;
+  const hit = masters.counterparties.find((c) => String(c.id) === String(id));
+  document.getElementById('f-party-search').value = hit ? hit.name : '';
+}
+function setParty(id) {
+  document.getElementById('f-party').value = id || '';
+  syncPartyText();
+}
+function bindPartySearch() {
+  const search = document.getElementById('f-party-search');
+  const hidden = document.getElementById('f-party');
+  const apply = () => {
+    const q = search.value.trim();
+    // 完全相符名稱，或唯一符合的統編／名稱片段，才算選定
+    let hit = masters.counterparties.find((c) => c.active !== false && c.name === q);
+    if (!hit && q) {
+      const m = masters.counterparties.filter((c) => c.active !== false && (c.name.includes(q) || (c.tax_id && c.tax_id === q)));
+      if (m.length === 1 && search.dataset.commit === '1') hit = m[0];
+    }
+    const next = hit ? String(hit.id) : '';
+    if (hidden.value !== next) { hidden.value = next; hidden.dispatchEvent(new Event('change')); }
+    search.classList.toggle('invalid', !!q && !hit);
+  };
+  search.addEventListener('input', () => { search.dataset.commit = ''; apply(); });
+  search.addEventListener('change', () => { search.dataset.commit = '1'; apply(); if (hidden.value) syncPartyText(); });
+  search.addEventListener('focus', () => search.select());
 }
 
 function fillSelect(id, list, placeholder, optional) {
@@ -141,6 +178,7 @@ function bindForm() {
   }));
 
   document.getElementById('f-company').addEventListener('change', updateBank);
+  bindPartySearch();
   document.getElementById('f-party').addEventListener('change', updateBank);
   document.getElementById('f-tax-free').addEventListener('change', recalc);
   ['f-retention', 'f-deduction', 'f-prepaid'].forEach((id) => document.getElementById(id).addEventListener('input', recalc));
@@ -309,7 +347,7 @@ function resetForm() {
   document.getElementById('f-invoice-date').value = today();
   document.getElementById('f-due-date').value = '';
   document.getElementById('f-tax-free').checked = false;
-  document.getElementById('f-party').value = '';
+  setParty('');
   document.getElementById('f-site').value = '';
   document.getElementById('f-applicant').value = '';
   if (masters.companies.length === 1) document.getElementById('f-company').value = masters.companies[0].id;
@@ -329,7 +367,7 @@ async function editRequest(id) {
     document.querySelectorAll('.kind-tab').forEach((t) => t.classList.toggle('active', t.dataset.kind === r.kind));
     document.getElementById('f-request-type').value = r.request_type;
     document.getElementById('f-company').value = r.company_id || '';
-    document.getElementById('f-party').value = r.counterparty_id || '';
+    setParty(r.counterparty_id);
     document.getElementById('f-site').value = r.site_id || '';
     document.getElementById('f-applicant').value = r.applicant_id || '';
     document.getElementById('f-invoice-no').value = r.invoice_no || '';
@@ -738,6 +776,12 @@ const MASTER_FIELDS = {
   companies: [
     { key: 'name', label: '公司名稱', required: true }, { key: 'tax_id', label: '統一編號' },
     { key: 'bank', label: '銀行' }, { key: 'account', label: '匯款帳號' }, { key: 'address', label: '地址' },
+    { key: 'print_title', label: '列印標題（留空＝公司名稱）', hideInTable: true, placeholder: '例如：太綺水電工程有限公司' },
+    { key: 'sign_1', label: '簽核欄 第1格', hideInTable: true, placeholder: '出納會計' },
+    { key: 'sign_2', label: '簽核欄 第2格', hideInTable: true, placeholder: '總經理' },
+    { key: 'sign_3', label: '簽核欄 第3格', hideInTable: true, placeholder: '覆核' },
+    { key: 'sign_4', label: '簽核欄 第4格', hideInTable: true, placeholder: '工務主任' },
+    { key: 'sign_5', label: '簽核欄 第5格（下方自動帶申請人）', hideInTable: true, placeholder: '經辦人' },
   ],
   applicants: [
     { key: 'employee_no', label: '員工編號' }, { key: 'name', label: '姓名', required: true }, { key: 'phone', label: '電話' },
@@ -764,7 +808,7 @@ function bindMasters() {
 
 function renderMasterTable() {
   document.getElementById('master-title').textContent = MASTER_TITLE[masterType];
-  const fields = MASTER_FIELDS[masterType];
+  const fields = MASTER_FIELDS[masterType].filter((f) => !f.hideInTable);
   const rows = masters[masterType] || [];
   document.getElementById('master-table').innerHTML = `
     <thead><tr>${fields.map((f) => `<th>${f.label}</th>`).join('')}<th>狀態</th><th>操作</th></tr></thead>
@@ -805,7 +849,7 @@ function openMasterModal(row) {
       </select></div>`;
     }
     return `<div class="field"><label class="${f.required ? 'req' : ''}">${f.label}</label>
-      <input type="text" data-key="${f.key}" value="${escapeAttr(val)}"></div>`;
+      <input type="text" data-key="${f.key}" value="${escapeAttr(val)}" placeholder="${escapeAttr(f.placeholder || '')}"></div>`;
   }).join('');
   document.getElementById('master-modal').style.display = 'flex';
 }

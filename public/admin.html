@@ -71,7 +71,7 @@
             </select>
           </div>
           <div class="field"><label class="req">歸屬公司</label><select id="f-company"></select></div>
-          <div class="field"><label class="req" id="f-party-label">請款對象（客戶／業主）</label><select id="f-party"></select></div>
+          <div class="field"><label class="req" id="f-party-label">請款對象（客戶／業主）</label><input type="text" id="f-party-search" list="party-list" placeholder="輸入名稱或統編搜尋…" autocomplete="off"><datalist id="party-list"></datalist><input type="hidden" id="f-party"></div>
           <div class="field"><label class="req">申請人／經辦人</label><select id="f-applicant"></select></div>
           <div class="field"><label>案場名稱</label><select id="f-site"></select></div>
           <div class="field"><label>發票／憑證號碼</label><input type="text" id="f-invoice-no" placeholder="例如 CA21298403、收據、免用發票"></div>

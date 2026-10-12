@@ -22,7 +22,7 @@
     }
     document.title = `${r.doc_no}_${r.counterparty_name}`;
     root.innerHTML = render(r, full);
-    document.getElementById('hint').textContent = full ? '' : '前台版本不含收款帳戶與扣抵金額';
+    document.getElementById('hint').textContent = (full ? '' : '前台版本不含收款帳戶與扣抵金額　') + '簽核欄名稱可直接點擊修改後再列印（僅此次有效）';
   } catch (err) {
     root.innerHTML = `<p style="text-align:center;padding:40px;">${escapeHtml(err.message)}</p>`;
   }
@@ -41,7 +41,7 @@ function render(r, full) {
 
   return `
   <div class="head">
-    <div class="company">${escapeHtml(r.company_name || '')}</div>
+    <div class="company">${escapeHtml(r.company_print_title || r.company_name || '')}</div>
     <div class="doc-title">${title}</div>
   </div>
   <div class="gold-line"></div>
@@ -108,8 +108,7 @@ function render(r, full) {
 
   <table class="sign">
     <thead><tr>
-      <th style="width:20%;">出納會計</th><th style="width:20%;">總經理</th><th style="width:20%;">覆核</th>
-      <th style="width:20%;">工務主任</th><th style="width:20%;">經辦人</th>
+      ${signSteps(r).map((t) => `<th style="width:20%;" contenteditable="true" title="可直接點擊修改名稱">${escapeHtml(t)}</th>`).join('')}
     </tr></thead>
     <tbody><tr>
       <td></td><td></td><td></td><td></td><td>${escapeHtml(r.applicant_name || '')}</td>
@@ -122,6 +121,12 @@ function render(r, full) {
       ${r.photos.map((p, i) => `<figure><img src="${p.data}"><figcaption>附件 #${i + 1}</figcaption></figure>`).join('')}
     </div>
   </div>` : ''}`;
+}
+
+// 五格簽核欄：用公司主檔設定的名稱，沒填就用預設。最後一格（經辦人）下方會自動帶申請人
+const DEFAULT_SIGN = ['出納會計', '總經理', '覆核', '工務主任', '經辦人'];
+function signSteps(r) {
+  return DEFAULT_SIGN.map((d, i) => String(r['sign_' + (i + 1)] || '').trim() || d);
 }
 
 function money(n) { return (Number(n) || 0).toLocaleString('zh-TW', { maximumFractionDigits: 0 }); }

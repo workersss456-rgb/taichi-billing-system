@@ -12,6 +12,15 @@ const pool = new Pool({
   connectionString,
   // Neon 需要 SSL；本機測試用的 localhost 資料庫則不用
   ssl: /@(localhost|127\.0\.0\.1)[:/]/.test(connectionString || '') ? false : { rejectUnauthorized: false },
+  // Neon 閒置會暫停並斷線：閒置連線 30 秒就主動釋放，避免拿到已斷線的舊連線；
+  // 連線等待 15 秒，足夠 Neon 冷啟動喚醒
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 15000,
+});
+
+// 沒有這段的話，資料庫斷線時 pg 的錯誤沒人接，Node 程序會直接崩潰、網站就打不開
+pool.on('error', (err) => {
+  console.error('資料庫連線池錯誤（已忽略，下次查詢會自動重連）：', err.message);
 });
 
 async function init() {
@@ -150,6 +159,16 @@ async function init() {
 
   await pool.query(`ALTER TABLE requests ADD COLUMN IF NOT EXISTS legacy_key TEXT`);
   await pool.query(`CREATE UNIQUE INDEX IF NOT EXISTS idx_requests_legacy_key ON requests (legacy_key) WHERE legacy_key IS NOT NULL`);
+
+  // 公司可自訂：列印標題、五格簽核欄名稱（留空＝用預設）
+  await pool.query(`
+    ALTER TABLE companies ADD COLUMN IF NOT EXISTS print_title TEXT;
+    ALTER TABLE companies ADD COLUMN IF NOT EXISTS sign_1 TEXT;
+    ALTER TABLE companies ADD COLUMN IF NOT EXISTS sign_2 TEXT;
+    ALTER TABLE companies ADD COLUMN IF NOT EXISTS sign_3 TEXT;
+    ALTER TABLE companies ADD COLUMN IF NOT EXISTS sign_4 TEXT;
+    ALTER TABLE companies ADD COLUMN IF NOT EXISTS sign_5 TEXT;
+  `);
 
   await seedMasters();
   await importLegacy();

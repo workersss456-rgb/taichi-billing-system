@@ -36,7 +36,7 @@ async function log(requestId, action, detail) {
 // 主檔：公司 / 廠商客戶 / 申請人 / 案場
 // ============================================================
 const MASTERS = {
-  companies: { table: 'companies', label: '公司', fields: ['name', 'tax_id', 'bank', 'account', 'address', 'active'] },
+  companies: { table: 'companies', label: '公司', fields: ['name', 'tax_id', 'bank', 'account', 'address', 'print_title', 'sign_1', 'sign_2', 'sign_3', 'sign_4', 'sign_5', 'active'] },
   counterparties: { table: 'counterparties', label: '廠商／客戶', fields: ['name', 'role', 'tax_id', 'bank', 'account', 'contact_person', 'phone', 'address', 'active'] },
   applicants: { table: 'applicants', label: '申請人', fields: ['employee_no', 'name', 'phone', 'active'] },
   sites: { table: 'sites', label: '案場', fields: ['name', 'address', 'scope', 'supervisor', 'active'] },
@@ -323,8 +323,11 @@ router.get('/requests/:id', async (req, res) => {
     const row = (await pool.query(
       `SELECT r.*, TO_CHAR(r.invoice_date, 'YYYY-MM-DD') AS invoice_date_fmt,
               TO_CHAR(r.due_date, 'YYYY-MM-DD') AS due_date_fmt,
-              TO_CHAR(r.created_at AT TIME ZONE 'Asia/Taipei', 'YYYY-MM-DD') AS created_date
-       FROM requests r WHERE r.id = $1`, [req.params.id]
+              TO_CHAR(r.created_at AT TIME ZONE 'Asia/Taipei', 'YYYY-MM-DD') AS created_date,
+              c.print_title AS company_print_title,
+              c.sign_1, c.sign_2, c.sign_3, c.sign_4, c.sign_5
+       FROM requests r LEFT JOIN companies c ON c.id = r.company_id
+       WHERE r.id = $1`, [req.params.id]
     )).rows[0];
     if (!row) return res.status(404).json({ error: '找不到這張申請單' });
     row.invoice_date = row.invoice_date_fmt;
